@@ -72,19 +72,26 @@ public class DailyPuzzle20130113 {
         int comboRange = intArray[0];
         int totalClicks = 0;
         //2 clockwise spins
-        totalClicks += comboRange * 3; //twice for first two spins, once for spin after selecting the first number.
+        totalClicks += comboRange * 2; 
         int prevNumber = 0;
-        for(int i = 1; i < intArray.length; i++) {
-            if((i % 2 != 0 && intArray[i] > prevNumber) || (i % 2 == 0 && intArray[i] < prevNumber)) {
-                totalClicks += Math.abs(intArray[i] - prevNumber);
-                prevNumber = intArray[i];
-                continue;
-            } else {
-                totalClicks += intArray[i] + prevNumber;
-                prevNumber = intArray[i];
-            }
+        //Continue clockwise to 1st number
+        totalClicks += intArray[1];
+        prevNumber = intArray[1];
+        //Counter-clockwise one spin
+        totalClicks += comboRange;
+        //Continue counter-clockwise to 2nd number
+        if(intArray[2] < prevNumber){
+            totalClicks += prevNumber - intArray[2];
+        } else {
+            totalClicks += prevNumber + (comboRange - intArray[2]);
+        }
+        prevNumber = intArray[2];
+        //Clockwise to 3rd number
+        if(intArray[3] > prevNumber) {
+            totalClicks += intArray[3] - prevNumber;
+        } else {
+            totalClicks += (comboRange - prevNumber) + intArray[3];
         }
         System.out.println("Clicks necessary to enter combination: " + totalClicks);
     }
-    
 }
